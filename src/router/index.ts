@@ -1,4 +1,9 @@
 import {createRouter, createWebHashHistory, RouteRecordRaw} from "vue-router"
+import loadingBar from "@/components/common/loadingbar/LoadingBar.vue"
+import { createVNode, render } from "vue"
+
+const loadBarVnode = createVNode(loadingBar)
+render(loadBarVnode, document.body)
 
 const ROOTPATH:string = ""
 
@@ -105,6 +110,15 @@ const routes:Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHashHistory(),
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  loadBarVnode.component?.exposed?.startLoading()
+  next()
+})
+
+router.afterEach((to, from) => {
+  loadBarVnode.component?.exposed?.endLoading()
 })
 
 export default router
