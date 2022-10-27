@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang='ts'>
-import { onMounted, ref } from "vue"
+import { ref } from "vue"
 let bar = ref<HTMLElement>();
 let speed = ref<number>(1);
 let timer = ref<number>(0)
@@ -53,7 +53,7 @@ defineExpose({
   .bar {
     height: 100%;
     width: 0;
-    background-color: red;
+    background-color: #409EFF;
   }
 }
 </style>

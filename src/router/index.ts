@@ -1,8 +1,9 @@
 import {createRouter, createWebHashHistory, RouteRecordRaw} from "vue-router"
-import loadingBar from "@/components/common/loadingbar/LoadingBar.vue"
+import LoadingBarVue from "@/components/common/loadingbar/LoadingBar.vue"
 import { createVNode, render } from "vue"
 
-const loadBarVnode = createVNode(loadingBar)
+// 过渡效果
+const loadBarVnode = createVNode(LoadingBarVue)
 render(loadBarVnode, document.body)
 
 const ROOTPATH:string = ""

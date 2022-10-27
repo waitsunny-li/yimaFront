@@ -42,7 +42,7 @@ import LoadingBar from "@/components/common/loadingbar/LoadingBar.vue"
   }
 
   .main {
-    background-color: #fff;
+    background-color: #ececec;
     padding: 0;
   }
 }
