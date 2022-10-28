@@ -1,7 +1,7 @@
 <template>
   <div class='breadcurmb-inner'>
     <el-breadcrumb separator="/">
-      <template v-for="breadcrumb in breadcrumbList" :key="breadcrumb">
+      <template v-for="breadcrumb in breadcurmStore.breadcurmList" :key="breadcrumb">
         <el-breadcrumb-item>{{breadcrumb}}</el-breadcrumb-item>
       </template>
     </el-breadcrumb>
@@ -10,8 +10,9 @@
 
 <script setup lang='ts'>
 import {ref} from "vue"
+import { useBreadcurmStore } from "@/store";
 const breadcrumbList = ref<string[]>()
-
+const breadcurmStore = useBreadcurmStore()
 const changeBread = (newBl: string[]) => {
   breadcrumbList.value = newBl
 }
@@ -27,5 +28,6 @@ defineExpose({
   padding: 13px 10px;
   background-color: #fff;
   box-shadow: 0px 1px 0px 0px #e9e9e9;
+  box-sizing: border-box;
 }
 </style>

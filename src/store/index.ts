@@ -1,9 +1,14 @@
 import {defineStore} from "pinia"
 
-export const breadcurmStore = defineStore("breadcurmId", {
+export const useBreadcurmStore = defineStore("breadcurmId", {
   state: () => {
     return {
-      breadcurmList: []
+      breadcurmList: [""]
+    }
+  },
+  actions: {
+    change(t: string[]) {
+      this.breadcurmList = t
     }
   }
 })

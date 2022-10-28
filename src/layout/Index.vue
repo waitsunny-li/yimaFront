@@ -10,8 +10,10 @@
           <MenuBar></MenuBar>
         </el-aside>
         <el-main class="main">
-          <Breadcurmb />
-          <router-view />
+          <Breadcurmb class="breadcurmb-wrap"/>
+          <div class="content-wrap">
+            <router-view />
+          </div>
         </el-main>
       </el-container>
     </el-container>
@@ -44,6 +46,15 @@ import LoadingBar from "@/components/common/loadingbar/LoadingBar.vue"
   .main {
     background-color: #ececec;
     padding: 0;
+    position: relative;
+
+    .breadcurmb-wrap {
+      margin-bottom: 10px;
+    }
+
+    .content-wrap {
+      padding: 0 10px;
+    }
   }
 }
 </style>
