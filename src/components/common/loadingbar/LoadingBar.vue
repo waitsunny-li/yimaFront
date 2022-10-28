@@ -1,5 +1,5 @@
 <template>
-  <div class='loadingbar-inner'>
+  <div class='loadingbar-inner' v-show="isShowBar">
     <div ref="bar" class="bar"></div>
   </div>
 </template>
@@ -9,18 +9,20 @@ import { ref } from "vue"
 let bar = ref<HTMLElement>();
 let speed = ref<number>(1);
 let timer = ref<number>(0)
+let isShowBar = ref<boolean>(false)
 const startLoading = () => {
   let barDom = bar.value as HTMLElement;
   speed.value = 1;
-  console.log(barDom)
+  isShowBar.value = true;
   timer.value = window.requestAnimationFrame(function fn() {
     if (speed.value < 90) {
       speed.value++;
       barDom.style.width = `${speed.value}%`
       timer.value = window.requestAnimationFrame(fn)
     } else {
-      speed.value = 1
-      window.cancelAnimationFrame(timer.value)
+      speed.value = 1;
+      isShowBar.value = false;
+      window.cancelAnimationFrame(timer.value);
     }
   })
 }
@@ -29,7 +31,7 @@ const endLoading = () => {
   let dom = bar.value as HTMLElement
   setTimeout(() => {
     window.requestAnimationFrame(() => {
-      speed.value = 100
+      speed.value = 100;
       dom.style.width = `${speed.value}%`
     })
   }, 500)

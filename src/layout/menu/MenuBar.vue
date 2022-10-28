@@ -54,7 +54,7 @@ let menuList = reactive<MenuObj[]>([
     alwaysShow: true,
     name: "GrcodeSystem",
     meta: {
-      title: "群活码管理",
+      title: "群活码",
       icon: "icon-yima-yonghu2",
       roles: ["sys:manage"],
       parentId: 0
@@ -92,7 +92,7 @@ let menuList = reactive<MenuObj[]>([
     alwaysShow: true,
     name: "KcodeSystem",
     meta: {
-      title: "客服码管理",
+      title: "客服码",
       icon: "icon-yima-kefu",
       roles: ["sys:manage"],
       parentId: 0

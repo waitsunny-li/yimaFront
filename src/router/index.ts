@@ -1,12 +1,16 @@
-import {createRouter, createWebHashHistory, RouteRecordRaw} from "vue-router"
+import {createRouter, createWebHashHistory, RouteRecordNormalized, RouteRecordRaw} from "vue-router"
 import LoadingBarVue from "@/components/common/loadingbar/LoadingBar.vue"
 import { createVNode, render } from "vue"
+import pinia from "@/store/store"
+import {useBreadcurmStore} from "@/store/index"
+import {ROOTPATH} from "@/config"
+
+const breadcurmStore = useBreadcurmStore(pinia)
 
 // 过渡效果
 const loadBarVnode = createVNode(LoadingBarVue)
 render(loadBarVnode, document.body)
 
-const ROOTPATH:string = ""
 
 const Login = () => import("@/views/login/Login.vue")
 const Layout = () => import("@/layout/Index.vue")
@@ -60,7 +64,7 @@ const routes:Array<RouteRecordRaw> = [
     path: ROOTPATH + '/grcode_system',
     component: Layout,
     meta: {
-      title: "群活码管理"
+      title: "群活码"
     },
     children: [
       {
@@ -85,7 +89,7 @@ const routes:Array<RouteRecordRaw> = [
     path: ROOTPATH + '/kcode_system',
     component: Layout,
     meta: {
-      title: "客服码管理"
+      title: "客服码"
     },
     children: [
       {
@@ -119,6 +123,12 @@ router.beforeEach((to, from, next) => {
 })
 
 router.afterEach((to, from) => {
+  let breadList = to.matched.reduce((per: Set<string>, cur: RouteRecordNormalized) => {
+    per.add(cur.meta?.title as string)
+    return per
+  }, new Set())
+  breadcurmStore.change([...breadList])
+  document.title = to.meta?.title as string
   loadBarVnode.component?.exposed?.endLoading()
 })
 
