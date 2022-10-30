@@ -64,7 +64,7 @@ const routes:Array<RouteRecordRaw> = [
     path: ROOTPATH + '/grcode_system',
     component: Layout,
     meta: {
-      title: "群活码"
+      title: "群活码",
     },
     children: [
       {
@@ -72,7 +72,8 @@ const routes:Array<RouteRecordRaw> = [
         name: "AddGrcode",
         component: AddGrcode,
         meta: {
-          title: "创建群活码"
+          title: "创建群活码",
+          transition: "animate__fadeIn"
         }
       },
       {
@@ -80,7 +81,8 @@ const routes:Array<RouteRecordRaw> = [
         name: "GrcodeSystem",
         component: GrcodeSystem,
         meta: {
-          title: "群活码管理"
+          title: "群活码管理",
+          transition: "animate__fadeIn"
         }
       }
     ]

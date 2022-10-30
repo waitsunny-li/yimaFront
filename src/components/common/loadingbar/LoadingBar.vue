@@ -15,13 +15,13 @@ const startLoading = () => {
   speed.value = 1;
   isShowBar.value = true;
   timer.value = window.requestAnimationFrame(function fn() {
-    if (speed.value < 90) {
+    if (speed.value < 93) {
       speed.value++;
       barDom.style.width = `${speed.value}%`
       timer.value = window.requestAnimationFrame(fn)
     } else {
       speed.value = 1;
-      isShowBar.value = false;
+      // isShowBar.value = false;
       window.cancelAnimationFrame(timer.value);
     }
   })
@@ -34,6 +34,9 @@ const endLoading = () => {
       speed.value = 100;
       dom.style.width = `${speed.value}%`
     })
+    setTimeout(() => {
+      isShowBar.value = false;
+    }, 500)
   }, 500)
 
 }
