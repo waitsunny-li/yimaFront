@@ -1,6 +1,6 @@
 <template>
   <div class='basic-inner'>
-    <el-form ref="basicFormRef" :model="basicForm" :rules="basicRules" label-width="140px" class="basic-form"
+    <el-form ref="basicFormRef" :model="basicForm" :rules="basicRules" label-width="150px" class="basic-form"
       size="default" status-icon>
       <!-- 活码类型 -->
       <el-form-item label="群活码类型:">
@@ -47,8 +47,9 @@
         </el-checkbox-group>
       </el-form-item>
 
-      <el-form-item label="客服功能">
-        
+      <el-form-item label="客服功能（二维码）:">
+        <PreviewTips top="6px" content="在活码页底部增加客服联系方式，必要时为用户联系客服提供帮助" :popover-width="400" :img-height="400" :img-width="400"
+            url="https://s.weituibao.com/static/1593332308660/contact-group.png"></PreviewTips>
       </el-form-item>
     </el-form>
   </div>
