@@ -47,7 +47,9 @@
         </el-checkbox-group>
       </el-form-item>
 
-      <el-form-item label="客服功能（二维码）:">
+      <el-form-item label="客服功能（二维码）:" prop="kefu_img">
+        <el-input v-model="basicForm.kefu_img"  style="display: none;"/>
+        <el-button>上传图片</el-button>
         <PreviewTips top="6px" content="在活码页底部增加客服联系方式，必要时为用户联系客服提供帮助" :popover-width="400" :img-height="400" :img-width="400"
             url="https://s.weituibao.com/static/1593332308660/contact-group.png"></PreviewTips>
       </el-form-item>
@@ -67,6 +69,7 @@ type BasicFormType = {
   repeat: string[]
   addWhite: string[]
   safetip: string[]
+  kefu_img: string
 }
 
 const basicForm = reactive<BasicFormType>({
@@ -75,7 +78,8 @@ const basicForm = reactive<BasicFormType>({
   remarks: "",
   repeat: [],
   addWhite: [],
-  safetip: []
+  safetip: [],
+  kefu_img: ""
 })
 
 const basicRules = reactive<FormRules>({
