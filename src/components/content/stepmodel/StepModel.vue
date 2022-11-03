@@ -81,6 +81,7 @@ const nextBtn = () => {
   }
 
   .content-wrap {
+    padding-bottom: 50px;
     :deep(.el-steps) {
       .el-step {
         .el-step__title {

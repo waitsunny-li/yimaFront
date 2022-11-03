@@ -1,14 +1,15 @@
 <template>
   <div class='preview-tip-inner'>
-    <div class="title">{{content}}</div>
+    <div class="title">{{ content }}</div>
     <el-popover :placement="placement" trigger="hover" class="preview-popover" :width="popoverWidth">
-      <div class="tips-content">
+      <span class="tips-content">
         <img :style="`width:${imgWidth}px;height:${imgHeight}px`" class="tip-img" :src="url" alt="">
-      </div>
+      </span>
       <template #reference>
         <div class="preview-btn" v-if="isShowBtn">
-          {{btnName}}
+          {{ btnName }}
         </div>
+        <div v-else></div>
       </template>
     </el-popover>
   </div>
@@ -54,8 +55,10 @@ withDefaults(defineProps<Pros>(), {
     line-height: 1;
   }
 }
+
 .tips-content {
-    .tip-img {
-    }
-  }
+  display: block;
+
+  .tip-img {}
+}
 </style>

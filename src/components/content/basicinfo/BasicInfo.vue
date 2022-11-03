@@ -1,6 +1,6 @@
 <template>
   <div class='basic-inner'>
-    <el-form ref="basicFormRef" :model="basicForm" :rules="basicRules" label-width="150px" class="basic-form"
+    <el-form ref="basicFormRef" :model="basicForm" :rules="basicRules" label-width="200px" class="basic-form"
       size="default" status-icon>
       <!-- 活码类型 -->
       <el-form-item label="群活码类型:">
@@ -32,7 +32,7 @@
         </el-checkbox-group>
       </el-form-item>
       <!-- 重复添加白名单 -->
-      <el-form-item label="" prop="remarks">
+      <el-form-item label="" prop="remarks" v-if="basicForm.repeat.length">
         <el-checkbox-group v-model="basicForm.addWhite">
           <el-checkbox label="重复添加白名单" />
           <PreviewTips top="6px" content="白名单用户绑定微信后，扫码不受防重复功能影响，且不对其进行使用数据统计" :isShowBtn="false"></PreviewTips>
@@ -50,8 +50,8 @@
       <el-form-item label="客服功能（二维码）:" prop="kefu_img" class="kefu_img_wrap">
         <el-input v-model="basicForm.kefu_img" style="display: none;" />
 
-        <el-upload class="upload-img-wrap" :show-file-list="false" :on-success="handleKefuSuccess"
-          :before-upload="beforeKefuUpload">
+        <el-upload class="upload-img-wrap" :show-file-list="false" 
+          :before-upload="beforeKefuUpload" :http-request="uploadImg" >
           <img v-if="basicForm.kefu_img" :src="basicForm.kefu_img" class="kefu-img" />
           <el-icon v-else class="kefu-uploader-icon">
             <Upload />
@@ -98,14 +98,17 @@ const basicRules = reactive<FormRules>({
     { required: true, message: '请输入活码名称', trigger: 'blur' },
     { min: 3, max: 5, message: '长度不低于3高于5', trigger: 'blur' },
   ],
+  kefu_img: [
+    {required: true}
+  ]
 })
-
-const handleKefuSuccess: UploadProps['onSuccess'] = (response, uploadFile) => {
-  console.log("上传成功============> ", response, uploadFile)
-}
 
 const beforeKefuUpload: UploadProps['beforeUpload'] = (rawFile) => {
   console.log("上传前=============> ", rawFile)
+}
+
+const uploadImg = () => {
+  console.log('==============上传')
 }
 </script>
 
@@ -113,7 +116,7 @@ const beforeKefuUpload: UploadProps['beforeUpload'] = (rawFile) => {
 .basic-inner {
   margin-top: 40px;
   display: flex;
-  width: 100%;
+  width: 80%;
   justify-content: center;
 
   .basic-form {
@@ -131,7 +134,17 @@ const beforeKefuUpload: UploadProps['beforeUpload'] = (rawFile) => {
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 1px dashed var(--el-border-color);
+
+      .el-upload {
+        border-radius: 4px;
+        overflow: hidden;
+        transition: var(--el-transition-duration-fast);
+        border: 1px dashed var(--el-border-color);
+
+        :hover {
+          border: 1px dashed @theme-color;
+        }
+      }
 
       .kefu-img {
         width: 100px;
@@ -144,6 +157,10 @@ const beforeKefuUpload: UploadProps['beforeUpload'] = (rawFile) => {
         width: 100px;
         height: 100px;
         text-align: center;
+
+        :hover {
+          border: none;
+        }
       }
     }
   }
