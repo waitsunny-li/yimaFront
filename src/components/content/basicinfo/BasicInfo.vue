@@ -50,8 +50,8 @@
       <el-form-item label="客服功能（二维码）:" prop="kefu_img" class="kefu_img_wrap">
         <el-input v-model="basicForm.kefu_img" style="display: none;" />
 
-        <el-upload class="upload-img-wrap" :show-file-list="false" 
-          :before-upload="beforeKefuUpload" :http-request="uploadImg" >
+        <el-upload class="upload-img-wrap" :show-file-list="false" :before-upload="beforeKefuUpload"
+          :http-request="uploadImg">
           <img v-if="basicForm.kefu_img" :src="basicForm.kefu_img" class="kefu-img" />
           <el-icon v-else class="kefu-uploader-icon">
             <Upload />
@@ -60,18 +60,18 @@
 
         <PreviewTips top="15px" content="在活码页底部增加客服联系方式，必要时为用户联系客服提供帮助" :popover-width="400" :img-height="400"
           :img-width="400" url="https://s.weituibao.com/static/1593332308660/contact-group.png" />
-        <PreviewTips top="10px" content="活码活动结束后，默认展示已设置客服微信" :isShowBtn="false"></PreviewTips>
+        <PreviewTips top="10px" bottom="10px" content="活码活动结束后，默认展示已设置客服微信" :isShowBtn="false"></PreviewTips>
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script setup lang='ts'>
-import { reactive } from "vue"
-import type { FormInstance, FormRules } from 'element-plus';
+import { onActivated, reactive, ref } from "vue"
+import type { FormInstance, FormRules, UploadProps } from 'element-plus';
 import { Upload } from '@element-plus/icons-vue'
 import PreviewTips from "@/components/common/previewtips/PreviewTips.vue"
-import type { UploadProps } from 'element-plus'
+import { Message } from "@/utils/index"
 
 type BasicFormType = {
   type: string
@@ -80,18 +80,27 @@ type BasicFormType = {
   repeat: string[]
   addWhite: string[]
   safetip: string[]
-  kefu_img: string
+  kefu_img: string,
+  form_instance: any
 }
 
-const basicForm = reactive<BasicFormType>({
-  type: "普通群活码",
-  name: "",
-  remarks: "",
-  repeat: [],
-  addWhite: [],
-  safetip: [],
-  kefu_img: ""
-})
+type Props = {
+  basicForm: BasicFormType
+}
+
+const props = defineProps<Props>();
+
+// const basicForm = reactive<BasicFormType>({
+//   type: "普通群活码",
+//   name: "",
+//   remarks: "",
+//   repeat: [],
+//   addWhite: [],
+//   safetip: [],
+//   kefu_img: ""
+// })
+const basicFormRef = ref<FormInstance>()
+props.basicForm.form_instance = basicFormRef
 
 const basicRules = reactive<FormRules>({
   name: [
@@ -99,16 +108,21 @@ const basicRules = reactive<FormRules>({
     { min: 3, max: 5, message: '长度不低于3高于5', trigger: 'blur' },
   ],
   kefu_img: [
-    {required: true}
+    { required: true, message: '请上传客服二维码' }
   ]
 })
 
 const beforeKefuUpload: UploadProps['beforeUpload'] = (rawFile) => {
   console.log("上传前=============> ", rawFile)
+  if (rawFile.size / 1024 / 1024 > 2) {
+    Message.error('图片大小不能超过2MB!')
+    return false
+  }
 }
 
 const uploadImg = () => {
   console.log('==============上传')
+  props.basicForm.kefu_img = "jjjj"
 }
 </script>
 
