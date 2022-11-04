@@ -25,6 +25,7 @@ type Pros = {
   isShowBtn?: boolean
   btnName?: string
   top?: string
+  bottom?: string
   url?: string
 }
 
@@ -40,6 +41,7 @@ withDefaults(defineProps<Pros>(), {
   font-size: @font-size;
   align-items: center;
   margin-top: v-bind(top);
+  margin-bottom: v-bind(bottom);
 
   .title {
     font-family: 'PingFangSC-Regular';

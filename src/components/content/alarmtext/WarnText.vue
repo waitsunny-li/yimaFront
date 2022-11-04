@@ -14,10 +14,15 @@
 </template>
 
 <script setup lang='ts'>
+type Props = {
+  width?: string
+}
+defineProps<Props>();
 </script>
 
 <style lang='less' scoped>
 .warntext-inner {
+  width: v-bind(width);
   background-color: #fff1f0;
   border: 1px solid #ffa39e;
   padding: 20px;

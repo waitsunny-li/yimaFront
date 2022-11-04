@@ -1,8 +1,10 @@
 <template>
   <div class='addcode-innter'>
-    <StepModel @on-change="listenStepChange" :step-list="stepTitleList">
+    <StepModel :step-list="stepTitleList" :active-num="activeNum" @on-next="nextBtn" @on-pre="preBtn">
       <template #content>
-        <component :is="curComponent.component"></component>
+        <keep-alive>
+          <component :is="curComponent.component"></component>
+        </keep-alive>
       </template>
     </StepModel>
   </div>
@@ -16,6 +18,9 @@ import Step2 from './addsteps/Step2.vue';
 import Step3 from './addsteps/Step3.vue';
 import Step4 from './addsteps/Step4.vue';
 import { computed } from '@vue/reactivity';
+import { useQcodeBasicInfoStore } from "@/store/index"
+import type { FormInstance } from "element-plus"
+import { log } from 'console';
 
 type StepComponent = {
   name: string
@@ -39,24 +44,43 @@ const stepComponentList = reactive<StepComponent[]>([
     component: markRaw(Step4)
   }
 ])
-const curComponent = reactive<StepComponent>({
-  name: stepComponentList[1].name,
-  component: stepComponentList[1].component
+const activeNum = ref<number>(1)
+
+const curComponent = computed<StepComponent>(() => {
+  return {
+    name: stepComponentList[activeNum.value - 1].name,
+    component: stepComponentList[activeNum.value - 1].component
+  }
 })
 
 const stepTitleList = computed<string[]>(() => {
   return stepComponentList.map(item => item.name)
 })
 
-const listenStepChange = (index: number) => {
-  console.log("====addgrcode===> ", index - 1)
-  curComponent.name = stepComponentList[index - 1].name
-  curComponent.component = stepComponentList[index - 1].component
+const qcodeBasicInfoStore = useQcodeBasicInfoStore()
+
+// 下一步
+const nextBtn = async () => {
+  if (activeNum.value === 4) return;
+  if (activeNum.value == 2) {
+    let valid = await qcodeBasicInfoStore.valid()
+    if (valid) {
+      activeNum.value++
+      console.log("基本信息==================> ", qcodeBasicInfoStore.basicInfo);
+    }
+    return
+  } else {
+    activeNum.value++
+  }
+}
+
+// 上一步
+const preBtn = () => {
+  if (activeNum.value === 1) return;
+  activeNum.value--
 }
 </script>
 
 <style lang='less' scoped>
-.addcode-innter {
-
-}
+.addcode-innter {}
 </style>
