@@ -9,12 +9,15 @@
       <div class="row table-con-main">
         <div class="header-row">
           <el-button type="primary" :icon="Plus">添加微信入群二维码</el-button>
+          <el-select class="select-operation" placeholder="批量操作" @change="operationChange">
+            <el-option v-for="item in selectOperations" :key="item.name" :label="item.name" :value="item.value" />
+          </el-select>
         </div>
         <el-table class="tablist" ref="tableRef" :data="tableData" style="width: 100%"
           @selection-change="handleSelectionChange" :row-class-name="rowClassName">
           <el-table-column type="selection" width="40" />
-          <el-table-column label="二维码名称" property="code_name" width="180" />
-          <el-table-column label="二维码图片" property="code_img" width="160">
+          <el-table-column label="二维码名称" property="code_name" min-width="200" />
+          <el-table-column label="二维码图片" property="code_img" min-width="180">
             <template #default="scope">
               <el-popover placement="right" title="Title" :width="200" trigger="hover"
                 content="this is content, this is content, this is content">
@@ -24,9 +27,9 @@
               </el-popover>
             </template>
           </el-table-column>
-          <el-table-column label="自动切换频率" property="frequ" width="160">
+          <el-table-column label="自动切换频率" property="frequ" min-width="140">
             <template #header>
-              自动切换
+              自动切换频率
               <el-tooltip class="tip-icon" effect="dark" placement="top">
                 <template #content>
                   <div style="width: 200px;">
@@ -40,7 +43,7 @@
             </template>
             <template #default="scope">{{ scope.row.frequ }}</template>
           </el-table-column>
-          <el-table-column label="过期时间" property="overdate" width="120" />
+          <el-table-column label="过期时间" property="overdate" min-width="160" />
           <el-table-column label="二维码展示形式" property="mode" width="180" />
           <el-table-column label="顺序调整" width="150">
             <template #default="scope">
@@ -73,11 +76,15 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column label="操作">
+          <el-table-column label="操作" width="150">
             <template #default="scope">
               <div class="operation-wrap">
                 <el-button size="small" plain>编辑</el-button>
-                <el-button size="small" plain>删除</el-button>
+                <el-popconfirm title="确定要删除这个二维码吗?" confirm-button-text="确认" cancel-button-text="取消">
+                  <template #reference>
+                    <el-button size="small" plain>删除</el-button>
+                  </template>
+                </el-popconfirm>
               </div>
             </template>
           </el-table-column>
@@ -93,7 +100,7 @@ import { Check, Close, Plus, QuestionFilled } from '@element-plus/icons-vue'
 import UploadAvatar from '@/components/common/uploadavatar/UploadAvatar.vue';
 import addGcodeList from "@/hooks/gcode/AddGcodeList"
 
-const { tableData, handleSelectionChange, rowClassName, upMove, upTop, downBottom, downMove } = addGcodeList()
+const { selectOperations, tableData, handleSelectionChange, rowClassName, upMove, upTop, downBottom, downMove, operationChange } = addGcodeList()
 </script>
 
 <style lang='less' scoped>
@@ -127,6 +134,11 @@ const { tableData, handleSelectionChange, rowClassName, upMove, upTop, downBotto
 
     .header-row {
       padding: 10px 0;
+
+      .select-operation {
+        margin-left: 10px;
+        width: 100px;
+      }
     }
 
     .tablist {

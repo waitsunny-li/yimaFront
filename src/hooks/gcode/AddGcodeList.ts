@@ -1,4 +1,7 @@
-import { ref, reactive } from "vue";
+import { ref, reactive, markRaw } from "vue";
+import { SelectOperation } from "@/config/index"
+import { ElMessageBox } from 'element-plus'
+import { Delete } from '@element-plus/icons-vue'
 
 interface CodeInfo {
   index?: number
@@ -13,6 +16,13 @@ interface RowIn {
   row: CodeInfo,
   rowIndex: number
 }
+
+interface Operations {
+  name: string
+  value: number
+}
+
+
 
 export default function AddGcodeList() {
   const tableData = reactive<CodeInfo[]>(
@@ -45,7 +55,7 @@ export default function AddGcodeList() {
     multipleSelection.value = val
   }
 
-  const rowClassName = ({row, rowIndex}: RowIn) => {
+  const rowClassName = ({ row, rowIndex }: RowIn) => {
     row.index = rowIndex
     if (rowIndex % 2) {
       return 'placehode-color'
@@ -65,16 +75,58 @@ export default function AddGcodeList() {
     tableData.splice(index, 1)
     tableData.unshift(row)
   }
-  const downMove = (index: number) => {}
-  const downBottom = (index: number) => {}
+  const downMove = (index: number) => {
+    if (index === tableData.length - 1) return;
+    let downrow = tableData[index + 1]
+    tableData[index + 1] = tableData[index]
+    tableData[index] = downrow
+  }
+  const downBottom = (index: number) => {
+    if (index === tableData.length - 1) return;
+    let row = tableData[index]
+    tableData.splice(index, 1)
+    tableData.push(row)
+  }
+
+  const selectOperations = reactive<Operations[]>([
+    { name: "删除", value: SelectOperation.DELETE },
+    { name: "自动切换频率", value: SelectOperation.FREQU },
+    { name: "有效期", value: SelectOperation.VALIDITY }
+  ])
+  const operationChange = (val: number) => {
+    switch (val) {
+      case SelectOperation.DELETE:
+        ElMessageBox.confirm(
+          '确定要删除1个二维码?',
+          '确认删除',
+          {
+            type: 'warning',
+            icon: markRaw(Delete),
+            confirmButtonText: "确定",
+            cancelButtonText: "取消"
+          }
+        ).then(() => {
+
+        }).catch(() => {})
+        break
+      case SelectOperation.FREQU:
+        console.log("自动切换频率");
+        break
+      case SelectOperation.VALIDITY:
+        console.log("有效期");
+        break
+    }
+  }
 
   return {
     tableData,
     handleSelectionChange,
     rowClassName,
-    upMove, 
+    upMove,
     upTop,
     downBottom,
-    downMove
+    downMove,
+    selectOperations,
+    operationChange
   }
 }
