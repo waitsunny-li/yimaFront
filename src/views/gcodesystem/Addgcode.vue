@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang='ts'>
-import { markRaw, ref, reactive } from 'vue';
+import { markRaw, ref, reactive, onActivated, onUnmounted } from 'vue';
 import StepModel from "@/components/content/stepmodel/StepModel.vue"
 import Step1 from './addsteps/Step1.vue';
 import Step2 from './addsteps/Step2.vue';
@@ -20,7 +20,6 @@ import Step4 from './addsteps/Step4.vue';
 import { computed } from '@vue/reactivity';
 import { useQcodeBasicInfoStore } from "@/store/index"
 import type { FormInstance } from "element-plus"
-import { log } from 'console';
 
 type StepComponent = {
   name: string
@@ -44,7 +43,7 @@ const stepComponentList = reactive<StepComponent[]>([
     component: markRaw(Step4)
   }
 ])
-const activeNum = ref<number>(1)
+const activeNum = ref<number>(3)
 
 const curComponent = computed<StepComponent>(() => {
   return {
@@ -58,6 +57,10 @@ const stepTitleList = computed<string[]>(() => {
 })
 
 const qcodeBasicInfoStore = useQcodeBasicInfoStore()
+
+onUnmounted(() => {
+  qcodeBasicInfoStore.$reset()
+})
 
 // 下一步
 const nextBtn = async () => {

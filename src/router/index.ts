@@ -1,11 +1,8 @@
 import {createRouter, createWebHashHistory, RouteRecordNormalized, RouteRecordRaw} from "vue-router"
 import LoadingBarVue from "@/components/common/loadingbar/LoadingBar.vue"
 import { createVNode, render } from "vue"
-import pinia from "@/store/store"
 import {useBreadcurmStore} from "@/store/index"
 import {ROOTPATH} from "@/config"
-
-const breadcurmStore = useBreadcurmStore(pinia)
 
 // 过渡效果
 const loadBarVnode = createVNode(LoadingBarVue)
@@ -129,6 +126,7 @@ router.afterEach((to, from) => {
     per.add(cur.meta?.title as string)
     return per
   }, new Set())
+  const breadcurmStore = useBreadcurmStore()
   breadcurmStore.change([...breadList])
   document.title = to.meta?.title as string
   loadBarVnode.component?.exposed?.endLoading()

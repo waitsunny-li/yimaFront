@@ -21,7 +21,7 @@
     </el-card>
     <div class="next-bottom">
       <template v-if="activeNum == 1">
-        <el-button type="primary" @click="nextBtn" size="large" :loading="false">我已详细阅读，下一步</el-button>
+        <el-button type="primary" @click="nextBtn" size="large" :loading="loading">我已详细阅读，下一步</el-button>
       </template>
       <template v-else>
         <el-button @click="preBtn" size="large">上一步</el-button>
@@ -33,17 +33,25 @@
 
 <script setup lang='ts'>
 import { ref, watch } from 'vue';
+import {Time} from "@/utils/index"
 type Props = {
   stepList: string[]
   activeNum: number
 }
-defineProps<Props>()
+const props = defineProps<Props>()
 const emit = defineEmits(["onPre", "onNext"])
+
+const loading = ref<boolean>(false)
 
 const preBtn = () => {
   emit("onPre")
 }
-const nextBtn = () => {
+const nextBtn = async () => {
+  if (props.activeNum === 1) {
+    loading.value = true
+    await Time.sleep(200)
+    loading.value = false
+  }
   emit("onNext")
 }
 </script>
@@ -76,8 +84,16 @@ const nextBtn = () => {
     align-items: center;
     padding-bottom: 50px;
     :deep(.el-steps) {
-      width: 1000px;
+      width: 900px;
       .el-step {
+        .is-success {
+          color: @theme-color;
+          border-color: @theme-color;
+
+          .is-status {
+            color: @theme-color;
+          }
+        }
         .el-step__title {
           font-size: 14px;
         }

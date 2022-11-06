@@ -90,15 +90,6 @@ type Props = {
 
 const props = defineProps<Props>();
 
-// const basicForm = reactive<BasicFormType>({
-//   type: "普通群活码",
-//   name: "",
-//   remarks: "",
-//   repeat: [],
-//   addWhite: [],
-//   safetip: [],
-//   kefu_img: ""
-// })
 const basicFormRef = ref<FormInstance>()
 props.basicForm.form_instance = basicFormRef
 
@@ -134,7 +125,16 @@ const uploadImg = () => {
   justify-content: center;
 
   .basic-form {
-    width: 70%;
+    width: 80%;
+  }
+
+  :deep(.el-form-item) {
+    .el-form-item__content {
+
+      .el-form-item__error--inline {
+        padding-top: 11px;
+      }
+    }
   }
 
   :deep(.kefu_img_wrap) {
@@ -155,8 +155,8 @@ const uploadImg = () => {
         transition: var(--el-transition-duration-fast);
         border: 1px dashed var(--el-border-color);
 
-        :hover {
-          border: 1px dashed @theme-color;
+        &:hover {
+          border-color: @theme-color;
         }
       }
 
@@ -172,7 +172,7 @@ const uploadImg = () => {
         height: 100px;
         text-align: center;
 
-        :hover {
+        &:hover {
           border: none;
         }
       }
