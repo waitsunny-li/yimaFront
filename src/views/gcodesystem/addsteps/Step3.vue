@@ -9,7 +9,7 @@
       <div class="row table-con-main">
         <div class="header-row">
           <el-button type="primary" :icon="Plus">添加微信入群二维码</el-button>
-          <el-select class="select-operation" placeholder="批量操作" @change="operationChange">
+          <el-select class="select-operation" placeholder="批量操作" @change="operationChange" :disabled="selectDisabled">
             <el-option v-for="item in selectOperations" :key="item.name" :label="item.name" :value="item.value" />
           </el-select>
         </div>
@@ -92,15 +92,34 @@
       </div>
     </div>
   </div>
+
+  <EditFrequ :dialog-info="editFrequDialogInfo"></EditFrequ>
+  <EditValidate :dialog-info="editValidDialogInfo"></EditValidate>
 </template>
 
 <script setup lang='ts'>
 import SwitchTip from '@/components/common/switchtip/SwitchTip.vue';
-import { Check, Close, Plus, QuestionFilled } from '@element-plus/icons-vue'
+import { Check, Close, Plus, QuestionFilled } from '@element-plus/icons-vue';
 import UploadAvatar from '@/components/common/uploadavatar/UploadAvatar.vue';
-import addGcodeList from "@/hooks/gcode/AddGcodeList"
+import { addGcodeList } from "@/hooks/gcode/AddGcodeList";
+import EditFrequ from '@/components/content/operations/editfrequ/EditFrequ.vue';
+import EditValidate from '@/components/content/operations/editvalidate/EditValidate.vue';
 
-const { selectOperations, tableData, handleSelectionChange, rowClassName, upMove, upTop, downBottom, downMove, operationChange } = addGcodeList()
+interface RowIn {
+  row: CodeInfo,
+  rowIndex: number
+}
+
+const rowClassName = ({ row, rowIndex }: RowIn) => {
+  row.index = rowIndex
+  if (rowIndex % 2) {
+    return 'placehode-color'
+  }
+  return ''
+}
+
+const { selectOperations, tableData, handleSelectionChange, upMove, upTop, downBottom, downMove, operationChange, selectDisabled, editFrequDialogInfo, editValidDialogInfo } = addGcodeList()
+
 </script>
 
 <style lang='less' scoped>
