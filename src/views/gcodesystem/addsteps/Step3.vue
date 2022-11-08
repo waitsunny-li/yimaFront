@@ -8,7 +8,7 @@
       </div>
       <div class="row table-con-main">
         <div class="header-row">
-          <el-button type="primary" :icon="Plus">添加微信入群二维码</el-button>
+          <el-button type="primary" :icon="Plus" @click="addBtn">添加微信入群二维码</el-button>
           <el-select class="select-operation" placeholder="批量操作" @change="operationChange" :disabled="selectDisabled">
             <el-option v-for="item in selectOperations" :key="item.name" :label="item.name" :value="item.value" />
           </el-select>
@@ -95,15 +95,18 @@
 
   <EditFrequ :dialog-info="editFrequDialogInfo"></EditFrequ>
   <EditValidate :dialog-info="editValidDialogInfo"></EditValidate>
+  <AditQcode :dialog-info="aditDialogInfo" :form-data="addData"></AditQcode>
 </template>
 
 <script setup lang='ts'>
 import SwitchTip from '@/components/common/switchtip/SwitchTip.vue';
 import { Check, Close, Plus, QuestionFilled } from '@element-plus/icons-vue';
 import UploadAvatar from '@/components/common/uploadavatar/UploadAvatar.vue';
-import { addGcodeList } from "@/hooks/gcode/AddGcodeList";
+import { gcodeListOpera } from "@/hooks/gcode/AddGcodeList";
 import EditFrequ from '@/components/content/operations/editfrequ/EditFrequ.vue';
 import EditValidate from '@/components/content/operations/editvalidate/EditValidate.vue';
+import AditQcode from '@/components/content/operations/aditqcode/AditQcode.vue';
+import { CodeInfo } from "@/config/type/index"
 
 interface RowIn {
   row: CodeInfo,
@@ -118,7 +121,7 @@ const rowClassName = ({ row, rowIndex }: RowIn) => {
   return ''
 }
 
-const { selectOperations, tableData, handleSelectionChange, upMove, upTop, downBottom, downMove, operationChange, selectDisabled, editFrequDialogInfo, editValidDialogInfo } = addGcodeList()
+const { selectOperations, tableData, handleSelectionChange, upMove, upTop, downBottom, downMove, operationChange, selectDisabled, editFrequDialogInfo, editValidDialogInfo, aditDialogInfo, addBtn, addData } = gcodeListOpera()
 
 </script>
 
