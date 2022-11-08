@@ -2,7 +2,7 @@ import {createRouter, createWebHashHistory, RouteRecordNormalized, RouteRecordRa
 import LoadingBarVue from "@/components/common/loadingbar/LoadingBar.vue"
 import { createVNode, render } from "vue"
 import {useBreadcurmStore} from "@/store/index"
-import {ROOTPATH} from "@/config"
+import {ROOTPATH} from "@/config/constant"
 
 // 过渡效果
 const loadBarVnode = createVNode(LoadingBarVue)

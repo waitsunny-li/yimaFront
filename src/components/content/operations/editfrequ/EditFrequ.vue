@@ -28,6 +28,7 @@
 <script setup lang='ts'>
 import { ref, reactive, computed } from 'vue';
 import type { FormInstance } from "element-plus"
+import {EditDialInfo} from "@/config/type/index"
 type Props = {
   dialogInfo: EditDialInfo
 }

@@ -1,14 +1,15 @@
 import { ref, reactive, markRaw } from "vue";
-import { SelectOperation } from "@/config/index"
-import { ElMessageBox } from 'element-plus'
-import { Delete } from '@element-plus/icons-vue'
+import { SelectOperation } from "@/config/constant/index";
+import { ElMessageBox } from 'element-plus';
+import { Delete } from '@element-plus/icons-vue';
+import { CodeInfo, EditDialInfo, DialogInfo, AditDialInfo } from "@/config/type"
 
 interface Operations {
   name: string
   value: number
 }
 
-export function addGcodeList() {
+export function gcodeListOpera() {
   const tableData = reactive<CodeInfo[]>(
     [
       {
@@ -56,11 +57,12 @@ export function addGcodeList() {
     selectOperations,
     operationChange,
     editFrequDialogInfo,
-    editValidDialogInfo
+    editValidDialogInfo,
+    ...addOreditOpertions()
   }
 }
 
-// 批量操作
+// batch operation
 export function batchOperations() {
   const selectDisabled = ref<boolean>(true)
   const selectOperations = reactive<Operations[]>([
@@ -71,7 +73,7 @@ export function batchOperations() {
   const multipleSelection = ref<number[]>([])
   const handleSelectionChange = (val: CodeInfo[]) => {
     let ret: number[] = []
-    val.forEach(item => ret.push(item.id))
+    val.forEach(item => ret.push(item.id as number))
     multipleSelection.value = ret
     if (ret.length == 0) {
       selectDisabled.value = true
@@ -125,7 +127,7 @@ export function batchOperations() {
   }
 }
 
-// 顺序调整
+// adjuste order
 export function adjusOrder(tableData: CodeInfo[]) {
   const upMove = (index: number) => {
     if (index === 0) return;
@@ -157,5 +159,30 @@ export function adjusOrder(tableData: CodeInfo[]) {
     upTop,
     downBottom,
     downMove,
+  }
+}
+
+// edit and add code
+export function addOreditOpertions() {
+  const aditDialogInfo = reactive<AditDialInfo>({
+    visible: false,
+    title: "添加二维码"
+  })
+
+  const addData = reactive<CodeInfo>({
+    code_name: "",
+    code_img: "",
+    frequ: 180,
+    overdate: "",
+    mode: "微信二维码"
+  })
+
+  const addBtn = () => {
+    aditDialogInfo.visible = true
+  }
+  return {
+    aditDialogInfo,
+    addBtn,
+    addData
   }
 }

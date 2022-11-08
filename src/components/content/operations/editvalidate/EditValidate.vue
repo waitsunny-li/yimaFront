@@ -1,6 +1,6 @@
 <template>
   <div class='edit-validate-inner'>
-    <el-dialog v-model="dialogInfo.visible" title="修改二维码有效期" width="26%">
+    <el-dialog v-model="dialogInfo.visible" title="修改二维码有效期" width="500px">
       <el-form-item label="二维码有效期:">
         <el-date-picker v-model="dateValue" type="date" placeholder="请选择日期" :disabled-date="disabledDate" />
         <div class="desc">
@@ -21,6 +21,7 @@
 
 <script setup lang='ts'>
 import { ref } from "vue";
+import { DialogInfo } from "@/config/type/index"
 
 type Props = {
   dialogInfo: DialogInfo
