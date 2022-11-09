@@ -11,6 +11,7 @@ export interface CodeInfo {
   code_name: string
   code_img: string
   img_mode?: string
+  down_guide?: string
   frequ: number
   overdate: string
   mode: string

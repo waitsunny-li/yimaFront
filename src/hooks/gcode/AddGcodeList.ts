@@ -174,7 +174,8 @@ export function addOreditOpertions() {
     frequ: 180,
     overdate: "",
     mode: "微信二维码",
-    img_mode: "标准模式"
+    img_mode: "标准模式",
+    down_guide: ""
   })
 
   const addBtn = () => {

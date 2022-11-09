@@ -47,7 +47,7 @@ withDefaults(defineProps<Pros>(), {
     font-family: 'PingFangSC-Regular';
     color: #999999;
     font-style: normal;
-    line-height: 1;
+    line-height: 1.5;
   }
 
   .preview-btn {
