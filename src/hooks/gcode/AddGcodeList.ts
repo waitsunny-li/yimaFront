@@ -48,7 +48,6 @@ export function gcodeListOpera() {
     editValidDialogInfo
   } = batchOperations()
 
-
   return {
     tableData,
     handleSelectionChange,
@@ -174,7 +173,8 @@ export function addOreditOpertions() {
     code_img: "",
     frequ: 180,
     overdate: "",
-    mode: "微信二维码"
+    mode: "微信二维码",
+    img_mode: "标准模式"
   })
 
   const addBtn = () => {

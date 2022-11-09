@@ -1,13 +1,9 @@
 import {createRouter, createWebHashHistory, RouteRecordNormalized, RouteRecordRaw} from "vue-router"
-import LoadingBarVue from "@/components/common/loadingbar/LoadingBar.vue"
-import { createVNode, render } from "vue"
 import {useBreadcurmStore} from "@/store/index"
 import {ROOTPATH} from "@/config/constant"
+import NProgress from 'nprogress'
 
-// 过渡效果
-const loadBarVnode = createVNode(LoadingBarVue)
-render(loadBarVnode, document.body)
-
+NProgress.configure({ showSpinner: false, easing: 'ease', speed: 500 })
 
 const Login = () => import("@/views/login/Login.vue")
 const Layout = () => import("@/layout/Index.vue")
@@ -117,7 +113,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  loadBarVnode.component?.exposed?.startLoading()
+  NProgress.start()
   next()
 })
 
@@ -129,7 +125,7 @@ router.afterEach((to, from) => {
   const breadcurmStore = useBreadcurmStore()
   breadcurmStore.change([...breadList])
   document.title = to.meta?.title as string
-  loadBarVnode.component?.exposed?.endLoading()
+  NProgress.done();
 })
 
 export default router
