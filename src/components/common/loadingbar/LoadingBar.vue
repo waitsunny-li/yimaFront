@@ -17,6 +17,7 @@ const startLoading = () => {
   timer.value = window.requestAnimationFrame(function fn() {
     if (speed.value < 93) {
       speed.value++;
+      speed.value++;
       barDom.style.width = `${speed.value}%`
       timer.value = window.requestAnimationFrame(fn)
     } else {

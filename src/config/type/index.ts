@@ -7,8 +7,10 @@ export interface AditDialInfo extends DialogInfo {title: string}
 export interface CodeInfo {
   id?: number,
   index?: number
+  qun_name?: string
   code_name: string
   code_img: string
+  img_mode?: string
   frequ: number
   overdate: string
   mode: string
