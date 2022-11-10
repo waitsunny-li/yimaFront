@@ -1,18 +1,20 @@
 <template>
   <div class='adit-qcode-inner'>
-    <el-dialog v-model="dialogInfo.visible" :title="dialogInfo.title" width="900px">
+    <el-dialog v-model="dialogInfo.visible" :title="dialogInfo.title" width="900px" top="5vh">
       <div class="form-con">
         <el-form ref="aditFormRef" :model="formData" label-width="180px" class="basic-form" size="default" status-icon>
           <!-- 活码类型 -->
           <el-form-item label="二维码图片类型:">
-            <el-radio-group v-model="formData.mode">
-              <el-radio border label="微信二维码" />
-              <el-radio border label="自制海报" />
+            <el-radio-group v-model="formData.mode" @change="modeChange">
+              <el-radio-button border :label="1">微信二维码</el-radio-button>
+              <el-radio-button border :label="2">自 制 海 报</el-radio-button>
             </el-radio-group>
-            <PreviewTips top="10px" bottom="10px" content="所上传的二维码直接从微信获取" :isShowBtn="false" style="width: 100%">
+            <PreviewTips top="10px" bottom="10px" content="所上传的二维码直接从微信获取" :isShowBtn="false" style="width: 100%" v-if="isModeCode">
+            </PreviewTips>
+            <PreviewTips top="10px" bottom="10px" content="所上传的二维码是海报形式的二维码" style="width: 100%" v-else>
             </PreviewTips>
           </el-form-item>
-          <el-form-item label="二维码展示形式:">
+          <el-form-item label="二维码展示形式:" v-if="isModeCode">
             <el-radio-group class="radio-colum" v-model="formData.img_mode">
               <el-radio label="标准模式">
                 <div class="custom-radio">
@@ -35,7 +37,7 @@
             </el-radio-group>
           </el-form-item>
           <!-- 群名称 -->
-          <el-form-item label="群名称:" style="width: 500px">
+          <el-form-item label="群名称:" style="width: 500px" v-if="isModeCode">
             <el-input type="textarea" v-model="formData.qun_name" placeholder="请填写在活码页面中展示的群名称" resize="none" />
           </el-form-item>
           <!-- 上传二维码图片 -->
@@ -57,12 +59,13 @@
           </el-form-item>
           <!-- 二维码失效时间 -->
           <el-form-item label="二维码失效时间" style="width: 500px">
-            <el-date-picker v-model="formData.overdate" type="date" style="width: 140px" />
+            <el-date-picker v-model="formData.overdate" type="date" style="width: 150px"
+              :disabled-date="disabledDate" />
             <PreviewTips top="14px" bottom="10px" content="请根据微信群码图片的底部日期填写，到期前系统提醒您及时更换。" :isShowBtn="false">
             </PreviewTips>
           </el-form-item>
           <!-- 引导文字 -->
-          <el-form-item label="引导文字（选填）:" style="width: 500px">
+          <el-form-item label="引导文字（选填）:" style="width: 500px" v-if="isModeCode">
             <el-input type="textarea" v-model="formData.down_guide" placeholder="请填写二维码下方的引导文字，可根据活动所填写"
               resize="none" />
           </el-form-item>
@@ -70,7 +73,7 @@
       </div>
 
       <!-- 预览活码落地页 -->
-      <MobilePreview class="mobile-preview"></MobilePreview>
+      <MobilePreview class="mobile-preview" v-if="isModeCode"></MobilePreview>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogInfo.visible = false">取消</el-button>
@@ -80,25 +83,33 @@
         </span>
       </template>
     </el-dialog>
+
+    <!-- 图片上传框 -->
+    <UploadImgSeries :dialog-info="uploadDialogInfo" :img-list="formData.code_imgs"></UploadImgSeries>
   </div>
 </template>
 
 <script setup lang='ts'>
-import { ref } from 'vue';
-import { AditDialInfo } from "@/config/type/index";
-import { CodeInfo } from "@/config/type/index";
+import { ref, reactive } from 'vue';
+import { AditDialInfo, CreateCode, DialogInfo } from "@/config/type/index";
 import PreviewTips from "@/components/common/previewtips/PreviewTips.vue";
 import MobilePreview from "@/components/content/mobilepreview/MobilePreview.vue"
+import UploadImgSeries from "@/components/common/uploadimgseries/UploadImgSeries.vue"
 import { QuestionFilled, Upload } from '@element-plus/icons-vue';
+import { Time } from "@/utils/index"
 
 type Props = {
   dialogInfo: AditDialInfo,
-  formData: CodeInfo
+  formData: CreateCode
 }
 const { dialogInfo } = defineProps<Props>();
 const uploadInput = ref<HTMLInputElement>();
 
+// 上传图片按钮
 const uploadBtn = () => {
+  uploadDialogInfo.visible = true
+
+  return
   console.log(uploadInput);
   let inputElem = uploadInput.value as HTMLInputElement;
   inputElem.click();
@@ -109,6 +120,24 @@ const uploadChange = () => {
   let file = inputElem.files && inputElem.files[0]
   console.log(file);
 }
+
+const disabledDate = (time: Date): boolean => {
+  return Time.disabledDate(time, 7)
+}
+
+const isModeCode = ref<boolean>(true)
+const modeChange = (value: number) => {
+  console.log(value);
+  if (value == 1) {
+    isModeCode.value = true
+  } else {
+    isModeCode.value = false
+  }
+}
+
+const uploadDialogInfo = reactive<DialogInfo>({
+  visible: false
+})
 </script>
 
 <style lang='less' scoped>
