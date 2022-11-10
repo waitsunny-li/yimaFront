@@ -2,7 +2,8 @@ import { ref, reactive, markRaw } from "vue";
 import { SelectOperation } from "@/config/constant/index";
 import { ElMessageBox } from 'element-plus';
 import { Delete } from '@element-plus/icons-vue';
-import { CodeInfo, EditDialInfo, DialogInfo, AditDialInfo } from "@/config/type"
+import { CodeInfo, EditDialInfo, DialogInfo, AditDialInfo, CreateCode } from "@/config/type"
+import { Time } from "@/utils/index"
 
 interface Operations {
   name: string
@@ -168,16 +169,17 @@ export function addOreditOpertions() {
     title: "添加二维码"
   })
 
-  const addData = reactive<CodeInfo>({
+  const addData = reactive<CreateCode>({
     code_name: "",
-    code_img: "",
+    code_imgs: [],
     frequ: 180,
-    overdate: "",
+    overdate: Time.getAfterBeforeDay(7, "yyyy-MM-dd"),
     mode: "微信二维码",
     img_mode: "标准模式",
     down_guide: ""
   })
-
+  console.log(addData);
+  
   const addBtn = () => {
     aditDialogInfo.visible = true
   }

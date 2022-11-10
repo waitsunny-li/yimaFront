@@ -22,6 +22,7 @@
 <script setup lang='ts'>
 import { ref } from "vue";
 import { DialogInfo } from "@/config/type/index"
+import { Time } from "@/utils/index"
 
 type Props = {
   dialogInfo: DialogInfo
@@ -31,7 +32,7 @@ const { dialogInfo } = defineProps<Props>()
 const dateValue = ref<string>("")
 
 const disabledDate = (time: Date) => {
-  return time.getTime() < Date.now() || (time.getTime() - 3600 * 1000 * 24 * 7) > Date.now()
+  return Time.disabledDate(time, 7)
 }
 </script>
 

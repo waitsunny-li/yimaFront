@@ -1,3 +1,5 @@
+import type {  UploadUserFile } from 'element-plus'
+
 export interface DialogInfo { visible: boolean }
 export interface EditDialInfo extends DialogInfo { ids?: number[] }
 export interface AddDataDiaInfo<T> extends DialogInfo { data: T }
@@ -10,6 +12,17 @@ export interface CodeInfo {
   qun_name?: string
   code_name: string
   code_img: string
+  img_mode?: string
+  down_guide?: string
+  frequ: number
+  overdate: string
+  mode: string
+}
+
+export interface CreateCode {
+  qun_name?: string
+  code_name: string
+  code_imgs: UploadUserFile[]
   img_mode?: string
   down_guide?: string
   frequ: number

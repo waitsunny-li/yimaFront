@@ -7,6 +7,7 @@ import 'element-plus/dist/index.css'
 import '@/assets/css/normal.less'
 import '@/assets/css/font.less'
 import 'nprogress/nprogress.css'
+import 'animate.css'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 
 createApp(App).use(ElementPlus, {locale: zhCn,}).use(createPinia()).use(router).mount('#app')
