@@ -1,9 +1,13 @@
-import type {  UploadUserFile } from 'element-plus'
 
 export interface DialogInfo { visible: boolean }
 export interface EditDialInfo extends DialogInfo { ids?: number[] }
 export interface AddDataDiaInfo<T> extends DialogInfo { data: T }
 export interface AditDialInfo extends DialogInfo {title: string}
+
+export interface UploadSeries {
+  url: string,
+  name?: string
+}
 
 // 创建群活码信息
 export interface CodeInfo {
@@ -22,7 +26,7 @@ export interface CodeInfo {
 export interface CreateCode {
   qun_name?: string
   code_name: string
-  code_imgs: UploadUserFile[]
+  code_imgs: UploadSeries[]
   img_mode?: string
   down_guide?: string
   frequ: number

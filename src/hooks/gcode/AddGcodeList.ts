@@ -171,21 +171,29 @@ export function addOreditOpertions() {
 
   const addData = reactive<CreateCode>({
     code_name: "",
-    code_imgs: [],
+    code_imgs: [
+      {name: "kkk", url: "https://img2.baidu.com/it/u=1989038259,1842360401&fm=253&fmt=auto&app=138&f=PNG?w=500&h=500"},
+      {name: "ddd", url: "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg.xianjichina.com%2Fediter%2F20210903%2Fimage%2F8978254ff0d1129c6fb0186a9e550bda.jpg&refer=http%3A%2F%2Fimg.xianjichina.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1670853516&t=91709edb71bb8d272f198a804f72c669"}
+    ],
     frequ: 180,
     overdate: Time.getAfterBeforeDay(7, "yyyy-MM-dd"),
     mode: "微信二维码",
     img_mode: "标准模式",
     down_guide: ""
   })
-  console.log(addData);
+  
   
   const addBtn = () => {
     aditDialogInfo.visible = true
   }
+
+  const successAddBtn = () => {
+    console.log(addData);
+  }
   return {
     aditDialogInfo,
     addBtn,
-    addData
+    addData,
+    successAddBtn
   }
 }

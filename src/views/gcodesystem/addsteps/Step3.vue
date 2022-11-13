@@ -95,7 +95,7 @@
 
   <EditFrequ :dialog-info="editFrequDialogInfo"></EditFrequ>
   <EditValidate :dialog-info="editValidDialogInfo"></EditValidate>
-  <AditQcode :dialog-info="aditDialogInfo" :form-data="addData"></AditQcode>
+  <AditQcode :dialog-info="aditDialogInfo" :form-data="addData" @listen-success="successAddBtn"></AditQcode>
 </template>
 
 <script setup lang='ts'>
@@ -121,7 +121,7 @@ const rowClassName = ({ row, rowIndex }: RowIn) => {
   return ''
 }
 
-const { selectOperations, tableData, handleSelectionChange, upMove, upTop, downBottom, downMove, operationChange, selectDisabled, editFrequDialogInfo, editValidDialogInfo, aditDialogInfo, addBtn, addData } = gcodeListOpera()
+const { selectOperations, tableData, handleSelectionChange, upMove, upTop, downBottom, downMove, operationChange, selectDisabled, editFrequDialogInfo, editValidDialogInfo, aditDialogInfo, addBtn, addData, successAddBtn } = gcodeListOpera()
 
 </script>
 

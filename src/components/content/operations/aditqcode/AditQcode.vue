@@ -48,7 +48,7 @@
                 <Upload />
               </el-icon> 上传图片
             </el-button>
-            <span style="color: #67C23A;font-size: 14px;margin-left: 10px;">已上传成功1张图片</span>
+            <span style="color: #67C23A;font-size: 14px;margin-left: 10px;">已上传成功{{formData.code_imgs.length}}张图片</span>
           </el-form-item>
           <!-- 自动切换频率 -->
           <el-form-item class="frequ-colum" label="自动切换频率:" prop="frequ" style="width: 500px">
@@ -77,7 +77,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogInfo.visible = false">取消</el-button>
-          <el-button type="primary" @click="dialogInfo.visible = false">
+          <el-button type="primary" @click="successBtn">
             确认
           </el-button>
         </span>
@@ -85,7 +85,7 @@
     </el-dialog>
 
     <!-- 图片上传框 -->
-    <UploadImgSeries :dialog-info="uploadDialogInfo" :img-list="formData.code_imgs"></UploadImgSeries>
+    <UploadImgSeries :dialog-info="uploadDialogInfo" :img-list="formData.code_imgs" @on-success="onSuccessImgs"></UploadImgSeries>
   </div>
 </template>
 
@@ -96,13 +96,15 @@ import PreviewTips from "@/components/common/previewtips/PreviewTips.vue";
 import MobilePreview from "@/components/content/mobilepreview/MobilePreview.vue"
 import UploadImgSeries from "@/components/common/uploadimgseries/UploadImgSeries.vue"
 import { QuestionFilled, Upload } from '@element-plus/icons-vue';
+import type { UploadFiles} from 'element-plus'
 import { Time } from "@/utils/index"
 
 type Props = {
   dialogInfo: AditDialInfo,
   formData: CreateCode
 }
-const { dialogInfo } = defineProps<Props>();
+const { dialogInfo, formData } = defineProps<Props>();
+const emits = defineEmits(["listenSuccess"])
 const uploadInput = ref<HTMLInputElement>();
 
 // 上传图片按钮
@@ -119,6 +121,16 @@ const uploadChange = () => {
   let inputElem = uploadInput.value as HTMLInputElement;
   let file = inputElem.files && inputElem.files[0]
   console.log(file);
+}
+
+const onSuccessImgs = (imglist: UploadFiles) => {
+  formData.code_imgs.length = 0
+  imglist.forEach(item => {
+    formData.code_imgs.push({
+      name: item.name,
+      url: item.url as string
+    })
+  })
 }
 
 const disabledDate = (time: Date): boolean => {
@@ -138,6 +150,10 @@ const modeChange = (value: number) => {
 const uploadDialogInfo = reactive<DialogInfo>({
   visible: false
 })
+
+const successBtn = () => {
+  emits("listenSuccess")
+}
 </script>
 
 <style lang='less' scoped>
