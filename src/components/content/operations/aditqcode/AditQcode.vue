@@ -37,7 +37,11 @@
             </el-radio-group>
           </el-form-item>
           <!-- 群名称 -->
-          <el-form-item label="群名称:" style="width: 500px" v-if="isModeCode">
+          <el-form-item label="群名称:" style="width: 500px" v-if="isModeCode" v-typeshow:[type]="['gcode', 'kcode']">
+            <el-input type="textarea" v-model="formData.kefu_name" placeholder="请填写在活码页面中展示的客服昵称" resize="none" />
+          </el-form-item>
+          <!-- 客服昵称 -->
+          <el-form-item label="客服昵称:" style="width: 500px" v-if="isModeCode" v-typeshow:[type]="['gcode', 'kcode']">
             <el-input type="textarea" v-model="formData.qun_name" placeholder="请填写在活码页面中展示的群名称" resize="none" />
           </el-form-item>
           <!-- 上传二维码图片 -->
@@ -91,7 +95,7 @@
 
 <script setup lang='ts'>
 import { ref, reactive } from 'vue';
-import { AditDialInfo, CreateCode, DialogInfo } from "@/config/type/index";
+import { AditDialInfo, CreateGcode, DialogInfo, CreateKcode } from "@/config/type/index";
 import PreviewTips from "@/components/common/previewtips/PreviewTips.vue";
 import MobilePreview from "@/components/content/mobilepreview/MobilePreview.vue"
 import UploadImgSeries from "@/components/common/uploadimgseries/UploadImgSeries.vue"
@@ -101,7 +105,8 @@ import { Time } from "@/utils/index"
 
 type Props = {
   dialogInfo: AditDialInfo,
-  formData: CreateCode
+  formData: CreateGcode | CreateKcode | any,
+  type: string
 }
 const { dialogInfo, formData } = defineProps<Props>();
 const emits = defineEmits(["listenSuccess"])

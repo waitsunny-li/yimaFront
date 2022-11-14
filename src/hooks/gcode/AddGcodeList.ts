@@ -2,7 +2,7 @@ import { ref, reactive, markRaw } from "vue";
 import { SelectOperation } from "@/config/constant/index";
 import { ElMessageBox } from 'element-plus';
 import { Delete } from '@element-plus/icons-vue';
-import { CodeInfo, EditDialInfo, DialogInfo, AditDialInfo, CreateCode } from "@/config/type"
+import { GcodeInfo, EditDialInfo, DialogInfo, AditDialInfo, CreateGcode } from "@/config/type"
 import { Time } from "@/utils/index"
 
 interface Operations {
@@ -11,7 +11,7 @@ interface Operations {
 }
 
 export function gcodeListOpera() {
-  const tableData = reactive<CodeInfo[]>(
+  const tableData = reactive<GcodeInfo[]>(
     [
       {
         id: 1,
@@ -71,7 +71,7 @@ export function batchOperations() {
     { name: "有效期", value: SelectOperation.VALIDITY }
   ])
   const multipleSelection = ref<number[]>([])
-  const handleSelectionChange = (val: CodeInfo[]) => {
+  const handleSelectionChange = (val: GcodeInfo[]) => {
     let ret: number[] = []
     val.forEach(item => ret.push(item.id as number))
     multipleSelection.value = ret
@@ -128,7 +128,7 @@ export function batchOperations() {
 }
 
 // adjuste order
-export function adjusOrder(tableData: CodeInfo[]) {
+export function adjusOrder(tableData: GcodeInfo[]) {
   const upMove = (index: number) => {
     if (index === 0) return;
     let uprow = tableData[index - 1]
@@ -169,7 +169,7 @@ export function addOreditOpertions() {
     title: "添加二维码"
   })
 
-  const addData = reactive<CreateCode>({
+  const addData = reactive<CreateGcode>({
     code_name: "",
     code_imgs: [
       {name: "kkk", url: "https://img2.baidu.com/it/u=1989038259,1842360401&fm=253&fmt=auto&app=138&f=PNG?w=500&h=500"},

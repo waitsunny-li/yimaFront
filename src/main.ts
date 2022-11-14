@@ -9,5 +9,12 @@ import '@/assets/css/font.less'
 import 'nprogress/nprogress.css'
 import 'animate.css'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
+import { typeshow } from '@/config/directives/index'
 
-createApp(App).use(ElementPlus, {locale: zhCn,}).use(createPinia()).use(router).mount('#app')
+const app = createApp(App)
+
+app.use(ElementPlus, {locale: zhCn,}).use(createPinia()).use(router).mount('#app')
+
+app.directive('typeshow', typeshow)
+
+

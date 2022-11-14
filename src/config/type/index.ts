@@ -9,27 +9,35 @@ export interface UploadSeries {
   name?: string
 }
 
+interface CodeInfo {
+  mode: string
+  frequ: number
+  overdate: string
+  img_mode?: string
+}
+
 // 创建群活码信息
-export interface CodeInfo {
+export interface GcodeInfo extends CodeInfo {
   id?: number,
   index?: number
   qun_name?: string
   code_name: string
-  code_img: string
-  img_mode?: string
   down_guide?: string
-  frequ: number
-  overdate: string
-  mode: string
+  code_img: string
 }
 
-export interface CreateCode {
+// 创建客服码
+export interface KcodeInfo extends CodeInfo {
+  kefu_name: string
+}
+
+export interface CreateGcode extends CodeInfo {
   qun_name?: string
   code_name: string
   code_imgs: UploadSeries[]
-  img_mode?: string
   down_guide?: string
-  frequ: number
-  overdate: string
-  mode: string
+}
+
+export interface CreateKcode extends CodeInfo {
+  kefu_name: string
 }

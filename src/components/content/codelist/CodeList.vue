@@ -95,7 +95,8 @@
 
   <EditFrequ :dialog-info="editFrequDialogInfo"></EditFrequ>
   <EditValidate :dialog-info="editValidDialogInfo"></EditValidate>
-  <AditQcode :dialog-info="aditDialogInfo" :form-data="addData" @listen-success="successAddBtn"></AditQcode>
+  <AditQcode :dialog-info="aditDialogInfo" :form-data="addData" @listen-success="successAddBtn" :type="type">
+  </AditQcode>
 </template>
 
 <script setup lang='ts'>
@@ -106,10 +107,10 @@ import { gcodeListOpera } from "@/hooks/gcode/AddGcodeList";
 import EditFrequ from '@/components/content/operations/editfrequ/EditFrequ.vue';
 import EditValidate from '@/components/content/operations/editvalidate/EditValidate.vue';
 import AditQcode from '@/components/content/operations/aditqcode/AditQcode.vue';
-import { CodeInfo } from "@/config/type/index"
+import { GcodeInfo } from "@/config/type/index"
 
 interface RowIn {
-  row: CodeInfo,
+  row: GcodeInfo,
   rowIndex: number
 }
 
