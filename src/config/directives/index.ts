@@ -7,5 +7,5 @@ export const typeshow: Directive<HTMLElement> = {
     let isShow = value.includes(arg);
     if (isShow) return;
     el.parentNode && el.parentNode.removeChild(el); 
-  }
+  },
 } 
