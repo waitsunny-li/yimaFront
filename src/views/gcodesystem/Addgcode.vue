@@ -43,7 +43,7 @@ const stepComponentList = reactive<StepComponent[]>([
     component: markRaw(Step4)
   }
 ])
-const activeNum = ref<number>(3)
+const activeNum = ref<number>(2)
 
 const curComponent = computed<StepComponent>(() => {
   return {

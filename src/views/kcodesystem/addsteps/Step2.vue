@@ -1,10 +1,11 @@
 <template>
   <div class='step2-inner'>
-    step2
+    <!-- <BasicInfoForm :basic-form="{}"/> -->
   </div>
 </template>
 
 <script setup lang='ts'>
+import BasicInfoForm from '@/components/content/basicinfo/BasicInfo.vue';
 </script>
 
 <style lang='less' scoped>

@@ -18,16 +18,20 @@
       </p>
     </div>
   </div>
-  <WarnText></WarnText>
+  <WarnText :width="width"></WarnText>
 </template>
 
 <script setup lang='ts'>
 import WarnText from '@/components/content/alarmtext/WarnText.vue';
+import { ref } from "vue"
+
+const width = ref<string>("1000px")
 </script>
 
 <style lang='less' scoped>
 .step1-inner {
   margin-top: 20px;
+  width: v-bind(width);
   border: 1px solid #E9E9E9;
 
   .pannel-title {

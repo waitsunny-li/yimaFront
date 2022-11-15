@@ -4,9 +4,9 @@
       size="default" status-icon>
       <!-- 活码类型 -->
       <el-form-item label="群活码类型:">
-        <el-radio-group v-model="basicForm.type">
-          <el-radio border label="普通群活码" />
-          <el-radio border label="分组群活码" />
+        <el-radio-group v-model="basicForm.type" @change="modeChange">
+          <el-radio border :label="1" >普通群活码</el-radio>
+          <el-radio border :label="2" >分组群活码</el-radio>
         </el-radio-group>
       </el-form-item>
 
@@ -20,7 +20,15 @@
 
       <!-- 群活码备注 -->
       <el-form-item label="活码备注（选填）:" prop="remarks" style="width: 700px" :inline-message="false">
-        <el-input v-model="basicForm.remarks" />
+        <el-input v-model="basicForm.remarks"/>
+        <PreviewTips top="12px" content="备注能方便你管理活码，内容不会展示给用户" :isShowBtn="false"></PreviewTips>
+      </el-form-item>
+
+      <!-- 分组标签 -->
+      <el-form-item v-if="modeType === 2" label="分组标签:" prop="tags" style="width: 700px" :inline-message="false" :rules="[
+        { required: true, message: '请上传分组标签' }
+      ]">
+        <el-input v-model="basicForm.tags" style="display: none;" />
         <PreviewTips top="12px" content="备注能方便你管理活码，内容不会展示给用户" :isShowBtn="false"></PreviewTips>
       </el-form-item>
 
@@ -82,9 +90,11 @@ type BasicFormType = {
   safetip: string[]
   kefu_img: string,
   form_instance: any
+  tags?: string
 }
 
 type Props = {
+  type: string,
   basicForm: BasicFormType
 }
 
@@ -100,8 +110,13 @@ const basicRules = reactive<FormRules>({
   ],
   kefu_img: [
     { required: true, message: '请上传客服二维码' }
-  ]
+  ],
 })
+
+const modeType = ref<number>(0);
+const modeChange = (val: number) => {
+  modeType.value = val;
+}
 
 const beforeKefuUpload: UploadProps['beforeUpload'] = (rawFile) => {
   console.log("上传前=============> ", rawFile)

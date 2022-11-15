@@ -42,7 +42,7 @@
             <el-input type="textarea" v-model="formData.kefu_name" placeholder="请填写在活码页面中展示的客服昵称" resize="none" />
           </el-form-item>
           <!-- 客服昵称 -->
-          <el-form-item label="客服昵称:" style="width: 500px" v-if="isModeCode" v-typeshow:[type]="['kcode']">
+          <el-form-item label="客服昵称:" style="width: 500px" v-typeshow:[type]="['kcode']">
             <el-input type="textarea" v-model="formData.qun_name" placeholder="请填写在活码页面中展示的群名称" resize="none" />
           </el-form-item>
           <!-- 上传二维码图片 -->
