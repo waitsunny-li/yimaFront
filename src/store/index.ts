@@ -24,6 +24,7 @@ export const useQcodeBasicInfoStore = defineStore("qcodeBasicId", {
         addWhite: [],
         safetip: [],
         kefu_img: "", 
+        tags: [],
         form_instance: undefined
       }
     }

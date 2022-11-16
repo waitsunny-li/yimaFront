@@ -5,8 +5,8 @@
       <!-- 活码类型 -->
       <el-form-item label="群活码类型:">
         <el-radio-group v-model="basicForm.type" @change="modeChange">
-          <el-radio border :label="1" >普通群活码</el-radio>
-          <el-radio border :label="2" >分组群活码</el-radio>
+          <el-radio border :label="1">普通群活码</el-radio>
+          <el-radio border :label="2">分组群活码</el-radio>
         </el-radio-group>
       </el-form-item>
 
@@ -20,7 +20,7 @@
 
       <!-- 群活码备注 -->
       <el-form-item label="活码备注（选填）:" prop="remarks" style="width: 700px" :inline-message="false">
-        <el-input v-model="basicForm.remarks"/>
+        <el-input v-model="basicForm.remarks" />
         <PreviewTips top="12px" content="备注能方便你管理活码，内容不会展示给用户" :isShowBtn="false"></PreviewTips>
       </el-form-item>
 
@@ -28,8 +28,20 @@
       <el-form-item v-if="modeType === 2" label="分组标签:" prop="tags" style="width: 700px" :inline-message="false" :rules="[
         { required: true, message: '请上传分组标签' }
       ]">
+        <div class="add-tags">
+          <el-input v-if="isShowTagInput" ref="InputRef" v-model="newTagVal"
+            @keyup.enter="handleTagInputConfirm" @blur="handleTagInputConfirm" />
+        
+          <el-button v-else :icon="Plus" @click="showTagInput">添加分组</el-button>
+          <PreviewTips top="0px" content=""></PreviewTips>
+        </div>
+        <div class="tag-content">
+          <el-tag v-for="tag in basicForm.tags" :key="tag" closable :disable-transitions="false"
+            @close="handleTagClose(tag)">
+            {{ tag }}
+          </el-tag>
+        </div>
         <el-input v-model="basicForm.tags" style="display: none;" />
-        <PreviewTips top="12px" content="备注能方便你管理活码，内容不会展示给用户" :isShowBtn="false"></PreviewTips>
       </el-form-item>
 
       <!-- 活码设置 -->
@@ -75,9 +87,9 @@
 </template>
 
 <script setup lang='ts'>
-import { onActivated, reactive, ref } from "vue"
-import type { FormInstance, FormRules, UploadProps } from 'element-plus';
-import { Upload } from '@element-plus/icons-vue'
+import { nextTick, reactive, ref } from "vue"
+import type { FormInstance, FormRules, UploadProps, ElInput  } from 'element-plus';
+import { Plus, Upload } from '@element-plus/icons-vue'
 import PreviewTips from "@/components/common/previewtips/PreviewTips.vue"
 import { Message } from "@/utils/index"
 
@@ -90,7 +102,7 @@ type BasicFormType = {
   safetip: string[]
   kefu_img: string,
   form_instance: any
-  tags?: string
+  tags?: string[]
 }
 
 type Props = {
@@ -130,6 +142,26 @@ const uploadImg = () => {
   console.log('==============上传')
   props.basicForm.kefu_img = "jjjj"
 }
+
+const InputRef = ref<InstanceType<typeof ElInput>>()
+const isShowTagInput = ref<boolean>(false);
+const newTagVal = ref<string>();
+const handleTagClose = (tag: string) => {
+  console.log(tag)
+}
+const showTagInput = () => {
+  isShowTagInput.value = true
+  nextTick(() => {
+    InputRef.value!.input!.focus()
+  })
+}
+const handleTagInputConfirm = () => {
+  if (newTagVal.value) {
+    props.basicForm.tags?.push(newTagVal.value)
+  }
+  isShowTagInput.value = false
+  newTagVal.value = ''
+}
 </script>
 
 <style lang='less' scoped>
@@ -141,6 +173,15 @@ const uploadImg = () => {
 
   .basic-form {
     width: 80%;
+
+    .add-tags {
+      display: flex;
+      align-items: center;
+    }
+
+    .tag-content {
+      width: 100%;
+    }
   }
 
   :deep(.el-form-item) {
