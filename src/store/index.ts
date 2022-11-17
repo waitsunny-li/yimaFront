@@ -18,13 +18,13 @@ export const useQcodeBasicInfoStore = defineStore("qcodeBasicId", {
     return {
       basicInfo: {
         type: 1,
-        name: "",
+        name: "王者小组",
         remarks: "",
         repeat: [],
         addWhite: [],
         safetip: [],
-        kefu_img: "", 
-        tags: [],
+        kefu_img: "ss", 
+        tags: ["一年级", "二年级", "三年级", "四年级", "五年级", "六年级"],
         form_instance: undefined
       }
     }
@@ -48,7 +48,7 @@ export const useKcodeBasicInfoStore = defineStore("kcodeBasicId", {
   state: () => {
     return {
       basicInfo: {
-        type: 2,
+        type: 1,
         name: "",
         remarks: "",
         repeat: [],

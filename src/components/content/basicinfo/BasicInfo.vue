@@ -11,7 +11,7 @@
       </el-form-item>
 
       <!-- 群活码名称 -->
-      <el-form-item label="群活码名称:" prop="name" style="width: 700px" :inline-message="true">
+      <el-form-item label="群活码名称:" prop="name" style="width: 700px" :inline-message="true" v-typeshow:[type]="['gcode']">
         <el-input v-model="basicForm.name" />
         <PreviewTips top="12px" content="活码名称将显示在微信标题栏上" :popover-width="430" :img-height="400" :img-width="400"
           placement="right" url="https://s.weituibao.com/1582602422498/title.png">
@@ -55,12 +55,12 @@
       <el-form-item label="活码设置:" prop="repeat">
         <el-checkbox-group v-model="basicForm.repeat">
           <el-checkbox label="防止重复入群" />
-          <template v-typeshow:[type]="['gcode']">
+          <div v-typeshow:[type]="['gcode']">
             <PreviewTips  top="6px" content="用户扫码获得微信群码后，后续扫码仅展示此二维码（无论活码是否有切换/调整）" :isShowBtn="false"></PreviewTips>
-          </template>
-          <template v-typeshow:[type]="['kcode']">
+          </div>
+          <div v-typeshow:[type]="['kcode']">
             <PreviewTips top="6px" content="用户扫码获得客服码后，后续扫码仅展示此二维码（无论活码是否有切换/调整）" :isShowBtn="false"></PreviewTips>
-          </template>
+          </div>
         </el-checkbox-group>
       </el-form-item>
       <!-- 重复添加白名单 -->
@@ -160,6 +160,8 @@ const isShowTagInput = ref<boolean>(false);
 const newTagVal = ref<string>();
 const handleTagClose = (tag: string) => {
   console.log(tag)
+  let index = props.basicForm.tags?.indexOf(tag);
+  props.basicForm.tags?.splice(index as number, 1)
 }
 const showTagInput = () => {
   isShowTagInput.value = true

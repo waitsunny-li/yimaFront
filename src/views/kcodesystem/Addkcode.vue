@@ -1,21 +1,24 @@
 <template>
   <div class='addkcode-inner'>
-    <StepModel @on-change="listenStepChange" :step-list="stepTitleList">
+    <StepModel :step-list="stepTitleList" :active-num="activeNum" @on-next="nextBtn" @on-pre="preBtn">
       <template #content>
-        <component :is="curComponent.component"></component>
+        <keep-alive>
+          <component :is="curComponent.component"></component>
+        </keep-alive>
       </template>
     </StepModel>
   </div>
 </template>
 
 <script setup lang='ts'>
-import { markRaw, ref, reactive } from 'vue';
+import { markRaw, ref, reactive, onUnmounted } from 'vue';
 import StepModel from "@/components/content/stepmodel/StepModel.vue"
 import Step1 from './addsteps/Step1.vue';
 import Step2 from './addsteps/Step2.vue';
 import Step3 from './addsteps/Step3.vue';
 import Step4 from './addsteps/Step4.vue';
 import { computed } from '@vue/reactivity';
+import { useKcodeBasicInfoStore } from "@/store/index"
 
 type StepComponent = {
   name: string
@@ -27,11 +30,11 @@ const stepComponentList = reactive<StepComponent[]>([
     component: markRaw(Step1)
   },
   {
-    name: "群活码基本信息",
+    name: "客服码基本信息",
     component: markRaw(Step2)
   },
   {
-    name: "添加微信群二维码",
+    name: "添加个人微信二维码",
     component: markRaw(Step3)
   },
   {
@@ -39,19 +42,44 @@ const stepComponentList = reactive<StepComponent[]>([
     component: markRaw(Step4)
   }
 ])
-const curComponent = reactive<StepComponent>({
-  name: stepComponentList[0].name,
-  component: stepComponentList[0].component
+
+const activeNum = ref<number>(2)
+
+const curComponent = computed<StepComponent>(() => {
+  return {
+    name: stepComponentList[activeNum.value - 1].name,
+    component: stepComponentList[activeNum.value - 1].component
+  }
 })
 
 const stepTitleList = computed<string[]>(() => {
   return stepComponentList.map(item => item.name)
 })
 
-const listenStepChange = (index: number) => {
-  console.log("====addgrcode===> ", index - 1)
-  curComponent.name = stepComponentList[index - 1].name
-  curComponent.component = stepComponentList[index - 1].component
+const kcodeBasicInfoStore = useKcodeBasicInfoStore()
+onUnmounted(() => {
+  kcodeBasicInfoStore.$reset()
+})
+
+// 下一步
+const nextBtn = async () => {
+  if (activeNum.value === 4) return;
+  if (activeNum.value == 2) {
+    let valid = await kcodeBasicInfoStore.valid()
+    if (valid) {
+      activeNum.value++
+      console.log("基本信息==================> ", kcodeBasicInfoStore.basicInfo);
+    }
+    return
+  } else {
+    activeNum.value++
+  }
+}
+
+// 上一步
+const preBtn = () => {
+  if (activeNum.value === 1) return;
+  activeNum.value--
 }
 </script>
 

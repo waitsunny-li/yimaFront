@@ -12,5 +12,9 @@ const kcodeBasicInfoStore = useKcodeBasicInfoStore();
 </script>
 
 <style lang='less' scoped>
-
+.step2-inner {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
 </style>

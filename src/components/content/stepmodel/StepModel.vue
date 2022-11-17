@@ -84,7 +84,9 @@ const nextBtn = async () => {
     align-items: center;
     padding-bottom: 50px;
     :deep(.el-steps) {
-      width: 900px;
+      // width: 920px;
+      width: 67%;
+      min-width: 800px;
       .el-step {
         .is-success {
           color: @theme-color;

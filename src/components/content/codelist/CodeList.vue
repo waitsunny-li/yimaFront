@@ -4,6 +4,7 @@
       <div class="row table-con-action">
         <SwitchTip :active-icon="Check" :inactive-icon="Close" tip-content="开启：每个二维码轮流展示给用户，扫码人数达到预设阈值后不再展示。<br/>
           关闭：从第一个二维码开始展示，扫码人数达到预设阈值后切换至下一个二维码，直到最后一个二维码的扫码人数达到上限为止。" lable="轮播图模式"></SwitchTip>
+          <SwitchTip style="margin-left: 25px;" :active-icon="Check" :inactive-icon="Close" tip-content="当所有个人二维码扫描人数达到预设阈值后，重新从第一个二维码开始新一轮的展示。" lable="循环模式"></SwitchTip>
         <UploadAvatar btn-name="自定义群头像" title="当前活码头像"></UploadAvatar>
       </div>
       <div class="row table-con-main">
