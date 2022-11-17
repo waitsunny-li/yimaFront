@@ -5,13 +5,20 @@
       <!-- 活码类型 -->
       <el-form-item label="群活码类型:">
         <el-radio-group v-model="basicForm.type" @change="modeChange">
-          <el-radio border :label="1">普通群活码</el-radio>
+          <el-radio border :label="1" style="margin-right: 10px">普通群活码</el-radio>
           <el-radio border :label="2">分组群活码</el-radio>
         </el-radio-group>
       </el-form-item>
 
       <!-- 群活码名称 -->
       <el-form-item label="群活码名称:" prop="name" style="width: 700px" :inline-message="true">
+        <el-input v-model="basicForm.name" />
+        <PreviewTips top="12px" content="活码名称将显示在微信标题栏上" :popover-width="430" :img-height="400" :img-width="400"
+          placement="right" url="https://s.weituibao.com/1582602422498/title.png">
+        </PreviewTips>
+      </el-form-item>
+      <!-- 客服码名称 -->
+      <el-form-item label="客服码名称:" prop="name" style="width: 700px" :inline-message="true" v-typeshow:[type]="['kcode']">
         <el-input v-model="basicForm.name" />
         <PreviewTips top="12px" content="活码名称将显示在微信标题栏上" :popover-width="430" :img-height="400" :img-width="400"
           placement="right" url="https://s.weituibao.com/1582602422498/title.png">
@@ -26,13 +33,13 @@
 
       <!-- 分组标签 -->
       <el-form-item v-if="modeType === 2" label="分组标签:" prop="tags" style="width: 700px" :inline-message="false" :rules="[
-        { required: true, message: '请上传分组标签' }
-      ]">
+        { required: true, message: '请上传分组标签', trigger: 'blur' }
+      ]" >
         <div class="add-tags">
-          <el-input v-if="isShowTagInput" ref="InputRef" v-model="newTagVal"
+          <el-input class="tag-input" v-if="isShowTagInput" ref="InputRef" v-model="newTagVal"
             @keyup.enter="handleTagInputConfirm" @blur="handleTagInputConfirm" />
         
-          <el-button v-else :icon="Plus" @click="showTagInput">添加分组</el-button>
+          <el-button class="tag-button" v-else :icon="Plus" @click="showTagInput">添加分组</el-button>
           <PreviewTips top="0px" content=""></PreviewTips>
         </div>
         <div class="tag-content">
@@ -48,7 +55,12 @@
       <el-form-item label="活码设置:" prop="repeat">
         <el-checkbox-group v-model="basicForm.repeat">
           <el-checkbox label="防止重复入群" />
-          <PreviewTips top="6px" content="用户扫码获得微信群码后，后续扫码仅展示此二维码（无论活码是否有切换/调整）" :isShowBtn="false"></PreviewTips>
+          <template v-typeshow:[type]="['gcode']">
+            <PreviewTips  top="6px" content="用户扫码获得微信群码后，后续扫码仅展示此二维码（无论活码是否有切换/调整）" :isShowBtn="false"></PreviewTips>
+          </template>
+          <template v-typeshow:[type]="['kcode']">
+            <PreviewTips top="6px" content="用户扫码获得客服码后，后续扫码仅展示此二维码（无论活码是否有切换/调整）" :isShowBtn="false"></PreviewTips>
+          </template>
         </el-checkbox-group>
       </el-form-item>
       <!-- 重复添加白名单 -->
@@ -94,7 +106,7 @@ import PreviewTips from "@/components/common/previewtips/PreviewTips.vue"
 import { Message } from "@/utils/index"
 
 type BasicFormType = {
-  type: string
+  type: number
   name: string
   remarks: string
   repeat: string[]
@@ -175,12 +187,22 @@ const handleTagInputConfirm = () => {
     width: 80%;
 
     .add-tags {
+      width: 220px;
       display: flex;
       align-items: center;
+      margin-bottom: 5px;
+
+      .tag-input, .tag-button {
+        width: 110px;
+      }
     }
 
     .tag-content {
       width: 100%;
+
+      .el-tag {
+        margin-right: 5px;
+      }
     }
   }
 
